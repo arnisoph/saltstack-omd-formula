@@ -1,0 +1,8 @@
+{% set datamap = salt['grains.filter_by'](
+  {
+    'Debian': {
+      'pkg_default_ext': 'deb',
+      'pkg_default_os': 'debian_ubuntu',
+    },
+  }
+, merge=salt['pillar.get']('omd:lookup')) %}
