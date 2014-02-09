@@ -2,6 +2,11 @@
 
 Salt Stack Formula to set up and configure the Open Monitoring Distribution (OMD)
 
+## NOTICE BEFORE USE
+
+* This formula aims to follow the conventions and recommendations described at [http://docs.saltstack.com/topics/conventions/formulas.html](http://docs.saltstack.com/topics/conventions/formulas.html)
+* TODO: cross depencenies
+
 ## TODO
 
 Define tasks to complete:

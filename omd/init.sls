@@ -1,4 +1,5 @@
-{% from "omd/map.jinja" import datamap with context %}
+{% import_yaml "omd/defaults.yaml" as rawmap %}
+{% set datamap = salt['grains.filter_by'](rawmap, merge=salt['pillar.get']('omd:lookup')) %}
 
 {% for ver in salt['pillar.get']('omd:versions') %}
   {% if ver['state'] is not defined %}
@@ -12,7 +13,6 @@
   {% else %}
   {% set srcuri = ver['srcuri'] %}
   {% endif %}
-
 
 omd-version-{{ ver.name }}:
   pkg:

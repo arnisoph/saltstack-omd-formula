@@ -1,0 +1,3 @@
+Debian:
+  pkg_default_ext: deb
+  pkg_default_os: debian_ubuntu
