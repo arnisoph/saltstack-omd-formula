@@ -1,4 +1,4 @@
-{% import_yaml "omd/defaults.yaml" as rawmap %}
+{% from "omd/defaults.yaml" import rawmap with context %}
 {% set datamap = salt['grains.filter_by'](rawmap, merge=salt['pillar.get']('omd:lookup')) %}
 
 {% for ver in salt['pillar.get']('omd:versions') %}
