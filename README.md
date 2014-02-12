@@ -1,4 +1,4 @@
-# template-formula
+# omd-formula
 
 Salt Stack Formula to set up and configure the Open Monitoring Distribution (OMD)
 
@@ -9,11 +9,7 @@ Salt Stack Formula to set up and configure the Open Monitoring Distribution (OMD
 
 ## TODO
 
-Define tasks to complete:
-
-* A
-* Foo
-* Bar
+None
 
 ## Instructions
 
@@ -25,9 +21,9 @@ Define tasks to complete:
 
 ## Available states
 
-### template
+### omd
 
-Describe what this state does.
+\#TODO Describe what this state does.
 
 ## Additional resources
 
@@ -41,10 +37,4 @@ None
 
 *DOES* work on:
 
-* Foo
-* Bar
-
-*SHOULD* work on:
-
-* Foo
-* Bar
+* GNU/ Linux Debian Wheezy

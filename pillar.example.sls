@@ -8,3 +8,4 @@ omd:
       state: removed
     - name: omd-0.56
       filename: omd-0.56_0
+      srcuri: http://files.omdistro.org/releases/debian_ubuntu/omd-0.56_0.wheezy_amd64.deb
