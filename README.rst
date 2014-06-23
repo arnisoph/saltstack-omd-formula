@@ -39,7 +39,7 @@ TODO: Describe what this state does.
 Additional resources
 --------------------
 
-Apache httpd vhosts
+**Apache httpd vhosts**
 
 If you don't want to truncate zzz_omd.conf which includes the default Apache httpd vhost config, overwrite config.manage in your pillars. But if you want to manage the vhost(s) manually use `a httpd <https://github.com/bechtoldt/httpd-formula>` formula to manage httpd's vhosts.
 
