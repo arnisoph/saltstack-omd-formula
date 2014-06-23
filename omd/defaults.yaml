@@ -7,4 +7,5 @@ Debian:
       - zzz_omd
     zzz_omd:
       path: /etc/apache2/conf.d/zzz_omd.conf
+  omdbin: {}
 {% endload %}

@@ -15,7 +15,6 @@ TODO
 * setup WATO Git?
 * manage WATO settings?
 * manage multisite configuration
-* manage multiple sites
 
 Instructions
 ------------
