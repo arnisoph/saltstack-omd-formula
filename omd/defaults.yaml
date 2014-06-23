@@ -2,4 +2,9 @@
 Debian:
   pkg_default_ext: deb
   pkg_default_os: debian_ubuntu
+  config:
+    manage:
+      - zzz_omd
+    zzz_omd:
+      path: /etc/apache2/conf.d/zzz_omd.conf
 {% endload %}

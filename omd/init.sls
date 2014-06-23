@@ -28,3 +28,14 @@ omd_version_{{ ver.name }}:
       - {{ ver.name }}: {{ srcuri }}
   {% endif %}
 {% endfor %}
+
+{% if 'zzz_omd' in datamap.config.manage|default([]) %}
+zzz_omd:
+  file:
+    - managed
+    - name: {{ datamap.config.zzz_omd.path }}
+    - mode: 644
+    - user: root
+    - group: root
+    - contents: ''
+{% endif %}
