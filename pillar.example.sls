@@ -1,5 +1,6 @@
 omd:
   versions:
+    - name: omd-1.11.20140622
     - name: omd-1.10
       filename: omd-1.10_0
       state: installed
