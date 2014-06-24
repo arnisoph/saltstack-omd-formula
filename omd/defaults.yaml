@@ -1,5 +1,6 @@
 {% load_yaml as rawmap %}
 Debian:
+  repo: {}
   pkg_default_ext: deb
   pkg_default_os: debian_ubuntu
   config:
@@ -8,4 +9,10 @@ Debian:
     zzz_omd:
       path: /etc/apache2/conf.d/zzz_omd.conf
   omdbin: {}
+  cmk:
+    agent:
+      script: {}
+      waitmax: {}
+      user: {}
+      group: {}
 {% endload %}

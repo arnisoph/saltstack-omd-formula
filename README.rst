@@ -33,7 +33,15 @@ Available states
 
 ``omd``
 ~~~~~~~
-TODO: Describe what this state does.
+Installs a repo containing OMD packages (optionally)
+
+``omd.cmkagent``
+~~~~~~~~~~~~~~~~
+Sets a Check_MK agent up
+
+``omd.server``
+~~~~~~~~~~~~~~
+Manages an OMD instance with all its versions and sites
 
 Additional resources
 --------------------

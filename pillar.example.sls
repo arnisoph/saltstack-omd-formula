@@ -1,4 +1,22 @@
 omd:
+{% if salt['grains.get']('os') == 'Debian' %}
+  lookup:
+    repo:
+      manage: True
+      url: http://192.168.2.42/
+      dist: wheezy
+      comps: main
+      keyurl: http://192.168.2.42/pubkey.gpg
+{% endif %}
+    cmk:
+      agent:
+        script:
+          group: monitoring
+  salt:
+    collect_monitoring_pubkeys:
+      tgt: monitoring.domain.local
+      arg: 'test -r /omd/sites/prod/.ssh/id_rsa.pub && cat /omd/sites/prod/.ssh/id_rsa.pub'
+      exprform: compound
   versions:
     - name: omd-1.11.20140622
     - name: omd-1.10
@@ -15,6 +33,7 @@ omd:
       config:
         DEFAULT_GUI: check_mk
         MULTISITE_COOKIE_AUTH: 'on'
+        NAGIOS_THEME: exfoliation
     - name: test
       ensure: absent
     - name: test2
