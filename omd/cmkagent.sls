@@ -30,4 +30,65 @@ waitmax:
     - group: {{ datamap.cmk.agent.waitmax.group|default('root') }}
 {% endif %}
 
-#TODO plugins dir + plugins
+mkconfdir:
+  file:
+    - directory
+    - name: {{ datamap.cmk.agent.config.mkconfdir.path|default('/etc/check_mk') }}
+    - makedirs: True
+    - mode: {{ datamap.cmk.agent.config.mkconfdir.mode|default(750) }}
+    - user: {{ datamap.cmk.agent.config.mkconfdir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
+    - group: {{ datamap.cmk.agent.config.mkconfdir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
+
+mkcachedir:
+  file:
+    - directory
+    - name: {{ datamap.cmk.agent.config.mkcachedir.path|default('/etc/check_mk/cache') }}
+    - makedirs: True
+    - mode: {{ datamap.cmk.agent.config.mkcachedir.mode|default(750) }}
+    - user: {{ datamap.cmk.agent.config.mkcachedir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
+    - group: {{ datamap.cmk.agent.config.mkcachedir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
+
+libdir:
+  file:
+    - directory
+    - name: {{ datamap.cmk.agent.config.libdir.path|default('/usr/lib/check_mk_agent') }}
+    - makedirs: True
+    - mode: {{ datamap.cmk.agent.config.libdir.mode|default(750) }}
+    - user: {{ datamap.cmk.agent.config.libdir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
+    - group: {{ datamap.cmk.agent.config.libdir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
+
+pluginsdir:
+  file:
+    - directory
+    - name: {{ datamap.cmk.agent.config.pluginsdir.path|default('/usr/lib/check_mk_agent/plugins') }}
+    - makedirs: True
+    - mode: {{ datamap.cmk.agent.config.pluginsdir.mode|default(750) }}
+    - user: {{ datamap.cmk.agent.config.pluginsdir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
+    - group: {{ datamap.cmk.agent.config.pluginsdir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
+
+localdir:
+  file:
+    - directory
+    - name: {{ datamap.cmk.agent.config.localdir.path|default('/usr/lib/check_mk_agent/local') }}
+    - makedirs: True
+    - mode: {{ datamap.cmk.agent.config.localdir.mode|default(750) }}
+    - user: {{ datamap.cmk.agent.config.localdir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
+    - group: {{ datamap.cmk.agent.config.localdir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
+
+spooldir:
+  file:
+    - directory
+    - name: {{ datamap.cmk.agent.config.spooldir.path|default('/etc/check_mk/spool') }}
+    - makedirs: True
+    - mode: {{ datamap.cmk.agent.config.spooldir.mode|default(750) }}
+    - user: {{ datamap.cmk.agent.config.spooldir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
+    - group: {{ datamap.cmk.agent.config.spooldir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
+
+jobdir:
+  file:
+    - directory
+    - name: {{ datamap.cmk.agent.config.jobdir.path|default('/var/lib/check_mk_agent/job') }}
+    - makedirs: True
+    - mode: {{ datamap.cmk.agent.config.jobdir.mode|default(750) }}
+    - user: {{ datamap.cmk.agent.config.jobdir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
+    - group: {{ datamap.cmk.agent.config.jobdir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}

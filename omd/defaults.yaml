@@ -11,6 +11,14 @@ Debian:
   omdbin: {}
   cmk:
     agent:
+      config:
+        mkconfdir: {}
+        mkcachedir: {}
+        libdir: {}
+        pluginsdir: {}
+        localdir: {}
+        spooldir: {}
+        jobdir: {}
       script: {}
       waitmax: {}
       user: {}
