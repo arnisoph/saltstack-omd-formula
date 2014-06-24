@@ -30,6 +30,17 @@ waitmax:
     - group: {{ datamap.cmk.agent.waitmax.group|default('root') }}
 {% endif %}
 
+{% if datamap.cmk.agent.mkjob.deploy|default(True) %}
+mkjob:
+  file:
+    - managed
+    - name: {{ datamap.cmk.agent.mkjob.path|default('/usr/bin/mk-job') }}
+    - source: {{ datamap.cmk.agent.mkjob.template_path|default('salt://omd/files/mk-job') }}
+    - mode: {{ datamap.cmk.agent.mkjob.mode|default(755) }}
+    - user: {{ datamap.cmk.agent.mkjob.user|default('root') }}
+    - group: {{ datamap.cmk.agent.mkjob.group|default('root') }}
+{% endif %}
+
 mkconfdir:
   file:
     - directory

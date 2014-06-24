@@ -21,6 +21,7 @@ Debian:
         jobdir: {}
       script: {}
       waitmax: {}
+      mkjob: {}
       user: {}
       group: {}
 {% endload %}
