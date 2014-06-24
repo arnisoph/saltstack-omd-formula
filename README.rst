@@ -48,7 +48,7 @@ Additional resources
 
 **Apache httpd vhosts**
 
-If you don't want to truncate zzz_omd.conf which includes the default Apache httpd vhost config, overwrite config.manage in your pillars. But if you want to manage the vhost(s) manually use `a httpd <https://github.com/bechtoldt/httpd-formula>`_ formula to manage httpd's vhosts.
+If you don't want to truncate zzz_omd.conf which includes the default Apache httpd vhost config, overwrite config.manage in your pillars. But if you want to manage the vhost(s) manually use `a httpd formula <https://github.com/bechtoldt/httpd-formula>`_ to manage httpd's vhosts.
 
 Templates
 ---------
@@ -75,7 +75,7 @@ Salt Compatibility
 
 Tested with:
 
-* 2014.1.x
+* Salt Development Version
 
 OS Compatibility
 ----------------

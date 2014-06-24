@@ -37,7 +37,8 @@ zzz_omd:
     - mode: 644
     - user: root
     - group: root
-    - contents: ''
+    - contents: |
+        {{ '#' }} OMD Apache vhosts are defined elsewhere
 {% endif %}
 
 {% for s in salt['pillar.get']('omd:sites', []) %}

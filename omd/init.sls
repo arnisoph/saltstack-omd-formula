@@ -3,7 +3,7 @@
 {% from "omd/defaults.yaml" import rawmap with context %}
 {% set datamap = salt['grains.filter_by'](rawmap, merge=salt['pillar.get']('omd:lookup')) %}
 
-{% if datamap.repo.manage|default(True) %}
+{% if datamap.repo.manage|default(False) %}
   {% if salt['grains.get']('os_family') == 'Debian' %}
 omd_repo:
   pkgrepo:
