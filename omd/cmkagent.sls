@@ -12,7 +12,7 @@ script:
   file:
     - managed
     - name: {{ datamap.cmk.agent.script.path|default('/usr/bin/check_mk_agent') }}
-    - source: {{ datamap.cmk.agent.script.template_path|default('salt://omd/files/check_mk_agent.linux') }}
+    - source: {{ datamap.cmk.agent.script.template_path|default('salt://omd/files/cmk/agent/check_mk_agent.linux') }}
     - mode: {{ datamap.cmk.agent.script.mode|default(750) }}
     - user: {{ datamap.cmk.agent.script.user|default('root') }}
     - group: {{ datamap.cmk.agent.script.group|default('root') }}
@@ -24,7 +24,7 @@ waitmax:
   file:
     - managed
     - name: {{ datamap.cmk.agent.waitmax.path|default('/usr/bin/waitmax') }}
-    - source: {{ datamap.cmk.agent.waitmax.template_path|default('salt://omd/files/waitmax') }}
+    - source: {{ datamap.cmk.agent.waitmax.template_path|default('salt://omd/files/cmk/agent/waitmax') }}
     - mode: {{ datamap.cmk.agent.waitmax.mode|default(755) }}
     - user: {{ datamap.cmk.agent.waitmax.user|default('root') }}
     - group: {{ datamap.cmk.agent.waitmax.group|default('root') }}
@@ -35,7 +35,7 @@ mkjob:
   file:
     - managed
     - name: {{ datamap.cmk.agent.mkjob.path|default('/usr/bin/mk-job') }}
-    - source: {{ datamap.cmk.agent.mkjob.template_path|default('salt://omd/files/mk-job') }}
+    - source: {{ datamap.cmk.agent.mkjob.template_path|default('salt://omd/files/cmk/agent/mk-job') }}
     - mode: {{ datamap.cmk.agent.mkjob.mode|default(755) }}
     - user: {{ datamap.cmk.agent.mkjob.user|default('root') }}
     - group: {{ datamap.cmk.agent.mkjob.group|default('root') }}

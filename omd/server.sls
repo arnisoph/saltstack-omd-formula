@@ -58,15 +58,55 @@ site_{{ s.name }}_createremove:
   {% endif %}
 
   {% if ensure in ['managed', 'running', 'stopped'] %}
-    {% set config = s.config|default({}) %}
+    {% set omd = s.omd|default({}) %}
+    {% set omdconfig = omd.config|default({}) %}
+    {% set cmk = s.cmk|default({}) %}
+    {% set cmkconfig = cmk.config|default({}) %}
 
-    {% for k, v in config.items() %}
+    {% for k, v in omdconfig.items() %}
 site_{{ s.name }}_setting_{{ k }}:
   cmd:
     - run
     - name: {{ datamap.omdbin.path|default('/usr/bin/omd') }} --verbose stop {{ s.name }} 1>/dev/null; {{ datamap.omdbin.path|default('/usr/bin/omd') }} --verbose config {{ s.name }} set '{{ k }}' '{{ v }}'
     - unless: {{ 'test "$(' ~ datamap.omdbin.path|default('/usr/bin/omd') ~ ' --verbose config ' ~ s.name ~ ' show ' ~ k ~ ')" = "' ~ v ~ '"'}}
     {% endfor %}
+
+{% if 'main' in datamap.cmk.server.config.manage|default([]) %}
+  {% set f_ccma = cmkconfig.main|default({}) %}
+site_{{ s.name }}_config_main:
+  file:
+    - managed
+    - name: /omd/sites/{{ s.name }}/etc/check_mk/main.mk
+    - source: {{ f_ccma.template_path|default('salt://omd/files/cmk/server/' ~ s.name ~ '/main.mk') }}
+    - template: {{ datamap.cmk.server.config.main.template_renderer|default('jinja') }}
+    - mode: {{ datamap.cmk.server.config.main.mode|default(644) }}
+    - user: {{ datamap.cmk.server.config.main.user|default(s.name) }}
+    - group: {{ datamap.cmk.server.config.main.group|default(s.name) }}
+    - watch_in:
+      - cmd: site_{{ s.name }}_restart
+{% endif %}
+
+{% if 'multisite' in datamap.cmk.server.config.manage|default([]) %}
+  {% set f_ccmu = cmkconfig.multisite|default({}) %}
+site_{{ s.name }}_config_multisite:
+  file:
+    - managed
+    - name: /omd/sites/{{ s.name }}/etc/check_mk/multisite.mk
+    - source: {{ f_ccmu.template_path|default('salt://omd/files/cmk/server/' ~ s.name ~ '/multisite.mk') }}
+    - template: {{ datamap.cmk.server.config.multisite.template_renderer|default('jinja') }}
+    - mode: {{ datamap.cmk.server.config.multisite.mode|default(644) }}
+    - user: {{ datamap.cmk.server.config.multisite.user|default(s.name) }}
+    - group: {{ datamap.cmk.server.config.multisite.group|default(s.name) }}
+    - watch_in:
+      - cmd: site_{{ s.name }}_restart
+{% endif %}
+
+{% if ensure in ['managed', 'running'] %}
+site_{{ s.name }}_restart:
+  cmd:
+    - wait
+    - name: {{ datamap.omdbin.path|default('/usr/bin/omd') }} restart {{ s.name }}
+{% endif %}
 
 site_{{ s.name }}_startstop:
   cmd:

@@ -24,4 +24,11 @@ Debian:
       mkjob: {}
       user: {}
       group: {}
+    server:
+      config:
+        manage:
+          - main
+          - multisite
+        main: {}
+        multisite: {}
 {% endload %}
