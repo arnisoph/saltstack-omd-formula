@@ -30,16 +30,28 @@ omd:
       srcuri: http://files.omdistro.org/releases/debian_ubuntu/omd-0.56_0.wheezy_amd64.deb
   sites:
     - name: prod
-      config:
-        DEFAULT_GUI: check_mk
-        MULTISITE_COOKIE_AUTH: 'on'
-        NAGIOS_THEME: exfoliation
+      omd:
+        config:
+          DEFAULT_GUI: check_mk
+          MULTISITE_COOKIE_AUTH: 'on'
+          NAGIOS_THEME: exfoliation
+      cmk:
+        config:
+          main:
+            template_path: salt://omd/files/cmk/server/foo/prod/main.mk
+          main_wato_global:
+            template_path: salt://omd/files/cmk/server/foo/prod/main/global.mk
+          multisite:
+            template_path: salt://omd/files/cmk/server/foo/prod/multisite.mk
+          multisite_wato_global:
+            template_path: salt://omd/files/cmk/server/foo/prod/multisite/global.mk
     - name: test
       ensure: absent
     - name: test2
     - name: test3
       ensure: stopped
     - name: test4
-      config:
-        AUTOSTART: 'off'
-        CORE: nagios
+      omd:
+        config:
+          AUTOSTART: 'off'
+          CORE: nagios
