@@ -12,9 +12,8 @@ NOTICE BEFORE YOU USE
 TODO
 ----
 
-* setup WATO Git?
-* manage WATO settings?
-* manage multisite configuration
+* define parents when applicable (e.g. VMs)
+* provide CMK config examples
 
 Instructions
 ------------

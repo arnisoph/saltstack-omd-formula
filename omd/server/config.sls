@@ -20,7 +20,7 @@ extend: {{ salt['pillar.get']('omd:server:sls_extend', '{}') }}
   {% set cmk = s.cmk|default({}) %}
   {% set cmkconfig = cmk.config|default({}) %}
 
-# OMD specific configuration
+# OMD site configuration
   {% for k, v in omdconfig.items() %}
 site_{{ s.name }}_setting_{{ k }}:
   cmd:
@@ -34,68 +34,40 @@ site_{{ s.name }}_setting_{{ k }}:
   {% endfor %}
 
 
-# Main configuration
-  {% if 'main' in cmkconfig.manage|default(datamap.cmk.server.config.manage)|default([]) %}
-    {% set f_ccma = cmkconfig.main|default({}) %}
-site_{{ s.name }}_config_main:
+# CMK main configuration
+  {% for f in cmkconfig.main.manage|default(datamap.cmk.server.config.main.manage)|default([]) %}
+    {% set f_p = cmkconfig.main[f]|default({}) %}
+    {% set f_d = datamap.cmk.server.config.main[f] %}
+site_{{ s.name }}_config_main_{{ f }}:
   file:
     - managed
-    - name: /omd/sites/{{ s.name }}/etc/check_mk/main.mk
-    - source: {{ f_ccma.template_path|default('salt://omd/files/cmk/server/' ~ s.name ~ '/main.mk') }}
-    - template: {{ datamap.cmk.server.config.main.template_renderer|default('jinja') }}
-    - mode: {{ datamap.cmk.server.config.main.mode|default(644) }}
-    - user: {{ datamap.cmk.server.config.main.user|default(s.name) }}
-    - group: {{ datamap.cmk.server.config.main.group|default(s.name) }}
+    - name: /omd/sites/{{ s.name }}/etc/check_mk/{{ f_p.relpath|default(f_d.relpath)|default('conf.d/' ~ f ~ '.mk') }}
+    - source: {{ f_p.template_path|default('salt://omd/files/cmk/server/' ~ s.name ~ '/main/' ~ f ~ '.mk') }}
+    - template: {{ f_d.template_renderer|default('jinja') }}
+    - mode: {{ f_d.mode|default(660) }}
+    - user: {{ f_d.user|default(s.name) }}
+    - group: {{ f_d.group|default(s.name) }}
     - watch_in:
       - cmd: site_{{ s.name }}_restart
-  {% endif %}
+  {% endfor %}
 
-  {% if 'main_wato_global' in cmkconfig.manage|default(datamap.cmk.server.config.manage)|default([]) %}
-    {% set f_ccmawg = cmkconfig.main_wato_global|default({}) %}
-site_{{ s.name }}_config_main_wato_global:
+# CMK multisite configuration
+  {% for f in cmkconfig.multisite.manage|default(datamap.cmk.server.config.multisite.manage)|default([]) %}
+    {% set f_p = cmkconfig.multisite[f]|default({}) %}
+    {% set f_d = datamap.cmk.server.config.multisite[f] %}
+site_{{ s.name }}_config_multisite_{{ f }}:
   file:
     - managed
-    - name: /omd/sites/{{ s.name }}/etc/check_mk/conf.d/wato/global.mk
-    - source: {{ f_ccmawg.template_path|default('salt://omd/files/cmk/server/' ~ s.name ~ '/main_global.mk') }}
-    - template: {{ datamap.cmk.server.config.multisite.template_renderer|default('jinja') }}
-    - mode: {{ datamap.cmk.server.config.main_wato_global.mode|default(660) }}
-    - user: {{ datamap.cmk.server.config.main_wato_global.user|default(s.name) }}
-    - group: {{ datamap.cmk.server.config.main_wato_global.group|default(s.name) }}
+    - name: /omd/sites/{{ s.name }}/etc/check_mk/{{ f_p.relpath|default(f_d.relpath)|default('multisite.d/' ~ f ~ '.mk') }}
+    - source: {{ f_p.template_path|default('salt://omd/files/cmk/server/' ~ s.name ~ '/multisite/' ~ f ~ '.mk') }}
+    - template: {{ f_d.template_renderer|default('jinja') }}
+    - mode: {{ f_d.mode|default(660) }}
+    - user: {{ f_d.user|default(s.name) }}
+    - group: {{ f_d.group|default(s.name) }}
     - watch_in:
       - cmd: site_{{ s.name }}_restart
-  {% endif %}
+  {% endfor %}
 
-
-# Multisite specific configuration
-  {% if 'multisite' in cmkconfig.manage|default(datamap.cmk.server.config.manage)|default([]) %}
-    {% set f_ccmu = cmkconfig.multisite|default({}) %}
-site_{{ s.name }}_config_multisite:
-  file:
-    - managed
-    - name: /omd/sites/{{ s.name }}/etc/check_mk/multisite.mk
-    - source: {{ f_ccmu.template_path|default('salt://omd/files/cmk/server/' ~ s.name ~ '/multisite.mk') }}
-    - template: {{ datamap.cmk.server.config.multisite.template_renderer|default('jinja') }}
-    - mode: {{ datamap.cmk.server.config.multisite.mode|default(644) }}
-    - user: {{ datamap.cmk.server.config.multisite.user|default(s.name) }}
-    - group: {{ datamap.cmk.server.config.multisite.group|default(s.name) }}
-    - watch_in:
-      - cmd: site_{{ s.name }}_restart
-  {% endif %}
-
-  {% if 'multisite_wato_global' in cmkconfig.manage|default(datamap.cmk.server.config.manage)|default([]) %}
-    {% set f_ccmuwg = cmkconfig.multisite_wato_global|default({}) %}
-site_{{ s.name }}_config_multisite_wato_global:
-  file:
-    - managed
-    - name: /omd/sites/{{ s.name }}/etc/check_mk/multisite.d/wato/global.mk
-    - source: {{ f_ccmuwg.template_path|default('salt://omd/files/cmk/server/' ~ s.name ~ '/multisite_global.mk') }}
-    - template: {{ datamap.cmk.server.config.multisite.template_renderer|default('jinja') }}
-    - mode: {{ datamap.cmk.server.config.multisite_wato_global.mode|default(660) }}
-    - user: {{ datamap.cmk.server.config.multisite_wato_global.user|default(s.name) }}
-    - group: {{ datamap.cmk.server.config.multisite_wato_global.group|default(s.name) }}
-    - watch_in:
-      - cmd: site_{{ s.name }}_restart
-  {% endif %}
 
 # CMK Agent/ SSH specific configuration
 omd_user_sshdir_{{ s.name }}:

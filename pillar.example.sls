@@ -38,13 +38,13 @@ omd:
       cmk:
         config:
           main:
-            template_path: salt://omd/files/cmk/server/foo/prod/main.mk
-          main_wato_global:
-            template_path: salt://omd/files/cmk/server/foo/prod/main/global.mk
+            main:
+              relpath: main.mk
+              template_path: salt://omd/files/cmk/server/foo/prod/main.mk
           multisite:
-            template_path: salt://omd/files/cmk/server/foo/prod/multisite.mk
-          multisite_wato_global:
-            template_path: salt://omd/files/cmk/server/foo/prod/multisite/global.mk
+            multisite:
+              relpath: multisite.mk
+              template_path: salt://omd/files/cmk/server/foo/prod/multisite.mk
     - name: test
       ensure: absent
     - name: test2

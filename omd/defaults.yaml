@@ -26,17 +26,28 @@ Debian:
       group: {}
     server:
       config:
-        manage:
-          - main
-          - main_wato_global
-          #- main_wato_hosts
-          #- main_wato_rules
-          - multisite
-          - multisite_wato_global
-        main: {}
-        main_wato_global: {}
-        #main_wato_hosts: {}
-        #main_wato_rules: {}
-        multisite: {}
-        multisite_wato_global: {}
+        main:
+          manage:
+            - main
+            - all_hosts
+            - bulkwalk_hosts
+            - contacts
+            - define_contactgroups
+            - host_contactgroups
+            - only_hosts
+            - ping_levels
+          main:
+            relpath: main.mk
+          all_hosts: {}
+          bulkwalk_hosts: {}
+          contacts: {}
+          define_contactgroups: {}
+          host_contactgroups: {}
+          only_hosts: {}
+          ping_levels: {}
+        multisite:
+          manage:
+            - multisite
+          multisite:
+            relpath: multisite.mk
 {% endload %}
