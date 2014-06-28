@@ -28,7 +28,15 @@ Debian:
       config:
         manage:
           - main
+          - main_wato_global
+          #- main_wato_hosts
+          #- main_wato_rules
           - multisite
+          - multisite_wato_global
         main: {}
+        main_wato_global: {}
+        #main_wato_hosts: {}
+        #main_wato_rules: {}
         multisite: {}
+        multisite_wato_global: {}
 {% endload %}
