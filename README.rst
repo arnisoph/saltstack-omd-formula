@@ -51,7 +51,7 @@ If you don't want to truncate zzz_omd.conf which includes the default Apache htt
 
 **Check_MK Configuration**
 
-This formula doesn't make use of Check_MK's Web Administration Tool (WATO ). The reason for this is that WATO has weird way (at least for me) of saving MK configuration files. Settings (like global settings in global.mk) aren't ordered in a specific order so it's often hard to generate *WATO-like* MK files.
+This formula doesn't make use of Check_MK's Web Administration Tool (WATO ). The reason for this is that WATO has a confusing way (at least for me) of saving MK configuration files. Settings (like global settings in global.mk) aren't ordered in a specific order so it's often hard to generate *WATO-like* MK files.
 
 This means to you that you A) should disable WATO in Multisite and B) configure all OMD/ Check_MK components manually including user DB, contacts, roles and more. Most of these will be possible with this formula.
 
