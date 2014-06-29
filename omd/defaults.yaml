@@ -1,4 +1,5 @@
 {% load_yaml as rawmap %}
+{# TOOD: remove unnecessary code #}
 Debian:
   repo: {}
   pkg_default_ext: deb
@@ -38,16 +39,12 @@ Debian:
             - ping_levels
           main:
             relpath: main.mk
-          all_hosts: {}
-          bulkwalk_hosts: {}
-          contacts: {}
-          define_contactgroups: {}
-          host_contactgroups: {}
-          only_hosts: {}
-          ping_levels: {}
         multisite:
           manage:
             - multisite
+            - multisite_users
           multisite:
             relpath: multisite.mk
+        notify:
+          manage: []
 {% endload %}

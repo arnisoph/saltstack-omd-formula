@@ -37,7 +37,7 @@ site_{{ s.name }}_setting_{{ k }}:
 # CMK main configuration
   {% for f in cmkconfig.main.manage|default(datamap.cmk.server.config.main.manage)|default([]) %}
     {% set f_p = cmkconfig.main[f]|default({}) %}
-    {% set f_d = datamap.cmk.server.config.main[f] %}
+    {% set f_d = datamap.cmk.server.config.main[f]|default({}) %}
 site_{{ s.name }}_config_main_{{ f }}:
   file:
     - managed
@@ -47,6 +47,8 @@ site_{{ s.name }}_config_main_{{ f }}:
     - mode: {{ f_d.mode|default(660) }}
     - user: {{ f_d.user|default(s.name) }}
     - group: {{ f_d.group|default(s.name) }}
+    - defaults:
+        site: {{ s }}
     - watch_in:
       - cmd: site_{{ s.name }}_restart
   {% endfor %}
@@ -54,7 +56,7 @@ site_{{ s.name }}_config_main_{{ f }}:
 # CMK multisite configuration
   {% for f in cmkconfig.multisite.manage|default(datamap.cmk.server.config.multisite.manage)|default([]) %}
     {% set f_p = cmkconfig.multisite[f]|default({}) %}
-    {% set f_d = datamap.cmk.server.config.multisite[f] %}
+    {% set f_d = datamap.cmk.server.config.multisite[f]|default({}) %}
 site_{{ s.name }}_config_multisite_{{ f }}:
   file:
     - managed
@@ -64,10 +66,26 @@ site_{{ s.name }}_config_multisite_{{ f }}:
     - mode: {{ f_d.mode|default(660) }}
     - user: {{ f_d.user|default(s.name) }}
     - group: {{ f_d.group|default(s.name) }}
+    - defaults:
+        site: {{ s }}
     - watch_in:
       - cmd: site_{{ s.name }}_restart
   {% endfor %}
 
+# CMK notification plugins
+  {% for f in cmkconfig.notify.manage|default(datamap.cmk.server.config.notify.manage)|default([]) %}
+    {% set f_p = cmkconfig.notify[f]|default({}) %}
+    {% set f_d = datamap.cmk.server.config.notify[f]|default({}) %}
+site_{{ s.name }}_deploy_notifyplugin_{{ f }}:
+  file:
+    - managed
+    - name: /omd/sites/{{ s.name }}/local/share/check_mk/notifications/{{ f_p.relpath|default(f_d.relpath)|default(f) }}
+    - source: {{ f_p.template_path|default('salt://omd/files/cmk/server/' ~ s.name ~ '/notify/' ~ f) }}
+    - template: {{ f_d.template_renderer|default('jinja') }}
+    - mode: {{ f_d.mode|default(755) }}
+    - user: {{ f_d.user|default(s.name) }}
+    - group: {{ f_d.group|default(s.name) }}
+  {% endfor %}
 
 # CMK Agent/ SSH specific configuration
 omd_user_sshdir_{{ s.name }}:

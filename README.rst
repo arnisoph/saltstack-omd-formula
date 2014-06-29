@@ -13,7 +13,9 @@ TODO
 ----
 
 * define parents when applicable (e.g. VMs)
-* provide CMK config examples
+* provide CMK config examples (``contrib/``)
+* remove redundant code
+* improve ugly code
 
 Instructions
 ------------

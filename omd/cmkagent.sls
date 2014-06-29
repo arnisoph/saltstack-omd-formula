@@ -3,6 +3,8 @@
 {% from "omd/defaults.yaml" import rawmap with context %}
 {% set datamap = salt['grains.filter_by'](rawmap, merge=salt['pillar.get']('omd:lookup')) %}
 
+{# TODO: use omd.server.config like loop to mange these files #}
+
 include:
   - omd
   - omd._user_cmkagent
