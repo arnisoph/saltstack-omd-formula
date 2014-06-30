@@ -41,7 +41,7 @@ site_{{ s.name }}_setting_{{ k }}:
 site_{{ s.name }}_config_main_{{ f }}:
   file:
     - managed
-    - name: /omd/sites/{{ s.name }}/etc/check_mk/{{ f_p.relpath|default(f_d.relpath)|default('conf.d/' ~ f ~ '.mk') }}
+    - name: /omd/sites/{{ s.name }}/etc/check_mk/{{ f_p.relpath|default(f_d.relpath)|default('conf.d/ZZZ_' ~ f ~ '.mk') }}
     - source: {{ f_p.template_path|default('salt://omd/files/cmk/server/' ~ s.name ~ '/main/' ~ f ~ '.mk') }}
     - template: {{ f_d.template_renderer|default('jinja') }}
     - mode: {{ f_d.mode|default(660) }}
@@ -60,7 +60,7 @@ site_{{ s.name }}_config_main_{{ f }}:
 site_{{ s.name }}_config_multisite_{{ f }}:
   file:
     - managed
-    - name: /omd/sites/{{ s.name }}/etc/check_mk/{{ f_p.relpath|default(f_d.relpath)|default('multisite.d/' ~ f ~ '.mk') }}
+    - name: /omd/sites/{{ s.name }}/etc/check_mk/{{ f_p.relpath|default(f_d.relpath)|default('multisite.d/ZZZ_' ~ f ~ '.mk') }}
     - source: {{ f_p.template_path|default('salt://omd/files/cmk/server/' ~ s.name ~ '/multisite/' ~ f ~ '.mk') }}
     - template: {{ f_d.template_renderer|default('jinja') }}
     - mode: {{ f_d.mode|default(660) }}
