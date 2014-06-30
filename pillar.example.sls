@@ -16,7 +16,7 @@ omd:
     collect_monitoring_pubkeys:
       tgt: monitoring.domain.local
       arg: 'test -r /omd/sites/prod/.ssh/id_rsa.pub && cat /omd/sites/prod/.ssh/id_rsa.pub'
-      exprform: compound
+      expr_form: compound
   versions:
     - name: omd-1.11.20140622
     - name: omd-1.10

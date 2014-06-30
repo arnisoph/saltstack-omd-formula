@@ -33,11 +33,11 @@ monitoring_user:
       - user: monitoring_user
 
 {% set cmp = salt['pillar.get']('omd:salt:collect_monitoring_pubkeys', {}) %}
-  {% for k, v in salt['publish.publish'](cmp.tgt|default('*'), cmp.fun|default('cmd.run_stdout'), cmp.arg, cmp.exprform|default('glob')).items() if v|length > 0 %}
+  {% for k, v in salt['publish.publish'](cmp.tgt|default('*'), cmp.fun|default('cmd.run_stdout'), cmp.arg, cmp.expr_form|default('glob')).items() if v|length > 0 %}
 ssh_auth_monitoring_{{ v[-20:] }}: {# TODO: this will break when several keys have been found instead of only one. FIXME! #}
   ssh_auth:
     - present
-    - name: command="{{ datamap.cmk.agent.script.path|default('/usr/bin/check_mk_agent') }}" {{ v }}
+    - name: command="{{ datamap.cmk.agent.config.script.path|default('/usr/bin/check_mk_agent') }}" {{ v }}
     - user: {{ datamap.cmk.agent.user.name|default('monitoring') }}
     - enc: ssh-rsa
   {% endfor %}

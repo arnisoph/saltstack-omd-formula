@@ -3,105 +3,48 @@
 {% from "omd/defaults.yaml" import rawmap with context %}
 {% set datamap = salt['grains.filter_by'](rawmap, merge=salt['pillar.get']('omd:lookup')) %}
 
-{# TODO: use omd.server.config like loop to mange these files #}
-
 include:
   - omd
   - omd._user_cmkagent
 
-{% if datamap.cmk.agent.script.deploy|default(True) %}
-script:
+# CMK Agent Directories
+{% for i in datamap.cmk.agent.config.manage_dir|default([]) %}
+  {% set d = datamap.cmk.agent.config[i] %}
+cmk_agent_dir_{{ i }}:
+  file:
+    - directory
+    - name: {{ d.path }}
+    - makedirs: True
+    - mode: {{ d.mode|default(750) }}
+    - user: {{ d.user|default(datamap.cmk.agent.user.name)|default('monitoring') }}
+    - group: {{ d.group|default(datamap.cmk.agent.group.name)|default('monitoring') }}
+{% endfor %}
+
+# CMK Agent Files
+{% for i in datamap.cmk.agent.config.manage_file|default([]) %}
+  {% set f = datamap.cmk.agent.config[i] %}
+cmk_agent_file_{{ i }}:
   file:
     - managed
-    - name: {{ datamap.cmk.agent.script.path|default('/usr/bin/check_mk_agent') }}
-    - source: {{ datamap.cmk.agent.script.template_path|default('salt://omd/files/cmk/agent/check_mk_agent.linux') }}
-    - mode: {{ datamap.cmk.agent.script.mode|default(750) }}
-    - user: {{ datamap.cmk.agent.script.user|default('root') }}
-    - group: {{ datamap.cmk.agent.script.group|default('root') }}
-    - template: jinja
-{% endif %}
+    - name: {{ f.path }}
+    - source: {{ f.template_path|default('salt://omd/files/cmk/agent/' ~ i) }}
+    - mode: {{ f.mode|default(755) }}
+    - user: {{ f.user|default(datamap.cmk.agent.user.name)|default('root') }}
+    - group: {{ f.group|default(datamap.cmk.agent.group.name)|default('root') }}
+    - watch_in:
+      - module: inventory
+{% endfor %}
 
-{% if datamap.cmk.agent.waitmax.deploy|default(True) %}
-waitmax:
-  file:
-    - managed
-    - name: {{ datamap.cmk.agent.waitmax.path|default('/usr/bin/waitmax') }}
-    - source: {{ datamap.cmk.agent.waitmax.template_path|default('salt://omd/files/cmk/agent/waitmax') }}
-    - mode: {{ datamap.cmk.agent.waitmax.mode|default(755) }}
-    - user: {{ datamap.cmk.agent.waitmax.user|default('root') }}
-    - group: {{ datamap.cmk.agent.waitmax.group|default('root') }}
-{% endif %}
-
-{% if datamap.cmk.agent.mkjob.deploy|default(True) %}
-mkjob:
-  file:
-    - managed
-    - name: {{ datamap.cmk.agent.mkjob.path|default('/usr/bin/mk-job') }}
-    - source: {{ datamap.cmk.agent.mkjob.template_path|default('salt://omd/files/cmk/agent/mk-job') }}
-    - mode: {{ datamap.cmk.agent.mkjob.mode|default(755) }}
-    - user: {{ datamap.cmk.agent.mkjob.user|default('root') }}
-    - group: {{ datamap.cmk.agent.mkjob.group|default('root') }}
-{% endif %}
-
-mkconfdir:
-  file:
-    - directory
-    - name: {{ datamap.cmk.agent.config.mkconfdir.path|default('/etc/check_mk') }}
-    - makedirs: True
-    - mode: {{ datamap.cmk.agent.config.mkconfdir.mode|default(750) }}
-    - user: {{ datamap.cmk.agent.config.mkconfdir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
-    - group: {{ datamap.cmk.agent.config.mkconfdir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
-
-mkcachedir:
-  file:
-    - directory
-    - name: {{ datamap.cmk.agent.config.mkcachedir.path|default('/etc/check_mk/cache') }}
-    - makedirs: True
-    - mode: {{ datamap.cmk.agent.config.mkcachedir.mode|default(750) }}
-    - user: {{ datamap.cmk.agent.config.mkcachedir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
-    - group: {{ datamap.cmk.agent.config.mkcachedir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
-
-libdir:
-  file:
-    - directory
-    - name: {{ datamap.cmk.agent.config.libdir.path|default('/usr/lib/check_mk_agent') }}
-    - makedirs: True
-    - mode: {{ datamap.cmk.agent.config.libdir.mode|default(750) }}
-    - user: {{ datamap.cmk.agent.config.libdir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
-    - group: {{ datamap.cmk.agent.config.libdir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
-
-pluginsdir:
-  file:
-    - directory
-    - name: {{ datamap.cmk.agent.config.pluginsdir.path|default('/usr/lib/check_mk_agent/plugins') }}
-    - makedirs: True
-    - mode: {{ datamap.cmk.agent.config.pluginsdir.mode|default(750) }}
-    - user: {{ datamap.cmk.agent.config.pluginsdir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
-    - group: {{ datamap.cmk.agent.config.pluginsdir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
-
-localdir:
-  file:
-    - directory
-    - name: {{ datamap.cmk.agent.config.localdir.path|default('/usr/lib/check_mk_agent/local') }}
-    - makedirs: True
-    - mode: {{ datamap.cmk.agent.config.localdir.mode|default(750) }}
-    - user: {{ datamap.cmk.agent.config.localdir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
-    - group: {{ datamap.cmk.agent.config.localdir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
-
-spooldir:
-  file:
-    - directory
-    - name: {{ datamap.cmk.agent.config.spooldir.path|default('/etc/check_mk/spool') }}
-    - makedirs: True
-    - mode: {{ datamap.cmk.agent.config.spooldir.mode|default(750) }}
-    - user: {{ datamap.cmk.agent.config.spooldir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
-    - group: {{ datamap.cmk.agent.config.spooldir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
-
-jobdir:
-  file:
-    - directory
-    - name: {{ datamap.cmk.agent.config.jobdir.path|default('/var/lib/check_mk_agent/job') }}
-    - makedirs: True
-    - mode: {{ datamap.cmk.agent.config.jobdir.mode|default(750) }}
-    - user: {{ datamap.cmk.agent.config.jobdir.user|default(datamap.cmk.agent.user.name|default('monitoring')) }}
-    - group: {{ datamap.cmk.agent.config.jobdir.group|default(datamap.cmk.agent.group.name|default('monitoring')) }}
+{% set sr = salt['pillar.get']('omd:salt:send_reinventory', {}) %}
+reinventory_host:
+  module:
+    - wait
+    - name: publish.publish
+    - opts:
+      tgt: {{ sr.tgt }}
+      m_fun: {{ sr.m_fun|default('cmd.run') }}
+      arg:
+        - runas={{ salt['pillar.get']('omd:cmk:agent:site', 'sitenotsetinpillars') }}
+        - shell=/bin/bash
+        - cmd="check_mk -II {{ salt['grains.get']('fqdn') }}; check_mk -O"
+      expr_form: {{ sr.expr_form|default('glob') }}
