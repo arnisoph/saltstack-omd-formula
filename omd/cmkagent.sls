@@ -46,5 +46,5 @@ reinventory_host:
       arg:
         - runas={{ salt['pillar.get']('omd:cmk:agent:site', 'sitenotsetinpillars') }}
         - shell=/bin/bash
-        - cmd="check_mk -II {{ salt['grains.get']('fqdn') }}; check_mk -O"
+        - cmd="check_mk -II {{ salt['grains.get']('fqdn') }} && check_mk -O"
       expr_form: {{ sr.expr_form|default('glob') }}
