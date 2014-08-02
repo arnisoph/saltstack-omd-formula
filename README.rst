@@ -8,6 +8,7 @@ NOTICE BEFORE YOU USE
 ---------------------
 
 * This formula aims to follow the conventions and recommendations described at http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#conventions-formula and http://docs.saltstack.com/en/latest/topics/best_practices.html
+* This formula isn't considered to be ready for production yet!
 
 TODO
 ----

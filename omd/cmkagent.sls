@@ -32,10 +32,11 @@ cmk_agent_file_{{ i }}:
     - user: {{ f.user|default(datamap.cmk.agent.user.name)|default('root') }}
     - group: {{ f.group|default(datamap.cmk.agent.group.name)|default('root') }}
     - watch_in:
-      - module: inventory
+      - module: reinventory_host
 {% endfor %}
 
 {% set sr = salt['pillar.get']('omd:salt:send_reinventory', {}) %}
+#TODO use reactor ?!
 reinventory_host:
   module:
     - wait
