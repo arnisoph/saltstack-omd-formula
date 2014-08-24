@@ -17,6 +17,7 @@ TODO
 * provide CMK config examples (``contrib/``)
 * Bug: simultaneous execution of omd.cmkagent can prevent Salt from reloading the OMD site (because OMD prevents simultaneous reloads at the same time)
 * setup and configure inventory plugins/ local checks
+* config xinetd for livestatus
 
 Instructions
 ------------

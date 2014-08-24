@@ -10,6 +10,8 @@ omd_repo:
     - managed
     - name: {{ datamap.repo.debtype|default('deb') }} {{ datamap.repo.url }} {{ datamap.repo.dist }} {{ datamap.repo.comps }}
     - file: /etc/apt/sources.list.d/{{ datamap.repo.filename|default('omd') }}.list
+    {% if 'keyurl' in datamap.repo %}
     - key_url: {{ datamap.repo.keyurl }}
+    {% endif %}
   {% endif %}
 {% endif %}
