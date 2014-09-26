@@ -84,7 +84,8 @@ Salt Compatibility
 
 Tested with:
 
-* Salt Development Version (should work with 2014.1.x mostly too)
+* 2014.1.x
+* 2014.7.x
 
 OS Compatibility
 ----------------
@@ -92,3 +93,4 @@ OS Compatibility
 Tested with:
 
 * GNU/ Linux Debian Wheezy
+* CentOS 6 (client side)

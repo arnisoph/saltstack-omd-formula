@@ -68,4 +68,73 @@ Debian:
             relpath: multisite.mk
         notify:
           manage: []
+RedHat:
+  repo: {}
+  pkg_default_ext: rpm
+  pkg_default_os: centos_rhel
+  config:
+    manage:
+      - zzz_omd
+    zzz_omd:
+      path: /etc/httpd/conf.d/zzz_omd.conf
+  omdbin: {}
+  cmk:
+    agent:
+      config:
+        manage_dir:
+          - mkconfdir
+          - mkcachedir
+          - libdir
+          - pluginsdir
+          - localdir
+          - spooldir
+          - jobdir
+        manage_file:
+          - script
+          - waitmax
+          - mkjob
+        mkconfdir:
+          path: /etc/check_mk
+        mkcachedir:
+          path: /etc/check_mk/cache
+        libdir:
+          path: /usr/lib/check_mk_agent
+        pluginsdir:
+          path: /usr/lib/check_mk_agent/plugins
+        localdir:
+          path: /usr/lib/check_mk_agent/local
+        spooldir:
+          path: /etc/check_mk/spool
+        jobdir:
+          path: /var/lib/check_mk_agent/job
+        script:
+          path: /usr/bin/check_mk_agent
+        waitmax:
+          path: /usr/bin/waitmax
+        mkjob:
+          path: /usr/bin/mk-job
+      user: {}
+      group: {}
+    server:
+      config:
+        main:
+          manage:
+            - main
+            - all_hosts
+            - bulkwalk_hosts
+            - contacts
+            - define_contactgroups
+            - host_contactgroups
+            - only_hosts
+            - ping_levels
+          main:
+            relpath: main.mk
+        multisite:
+          manage:
+            - multisite
+            - multisite_users
+          multisite:
+            relpath: multisite.mk
+        notify:
+          manage: []
 {% endload %}
